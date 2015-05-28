@@ -1,4 +1,4 @@
 var firstComment = "Just a sample JS file",
-    secondComment = "Ooo Wee!";
+    secondComment = "Ooo Wow! This is neat!";
 console.log(firstComment);
 console.log(secondComment);
