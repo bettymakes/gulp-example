@@ -1,0 +1,9 @@
+$primary: blue;
+$base-font-size: 16px;
+
+div {
+  color: $primary;
+  p {
+    font-size: $base-font-size;
+  }
+}

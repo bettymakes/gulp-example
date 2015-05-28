@@ -1,4 +1,5 @@
 var gulp    = require('gulp'),
+    sass    = require('gulp-sass'),
     uglify  = require('gulp-uglify');
 
 // Task: SCRIPTS  =========================================================
@@ -8,14 +9,20 @@ gulp.task('scripts', function(){
   gulp.src('js/*.js')
     // Minifies the code
     .pipe(uglify())
-    // Compiles the minified code into build/js directory
+    // Outputs the minified code into build/js directory
     .pipe(gulp.dest('build/js'));
 });
 
 // Task: STYLES ===========================================================
 // Testing for the interim, printing text to screen
 gulp.task('styles', function(){
-  console.log('Testing');
+  // Loads any '.scss' files in the /styles directory
+  console.log('start fail');
+  gulp.src('styles/*.scss')
+    // Builds the scss (coverting to css)
+    .pipe(sass())
+    // Outputs the css into build/styles directory
+    .pipe(gulp.dest('build/styles'));
 });
 
 
@@ -25,6 +32,10 @@ gulp.task('watch', function(){
   // Watches all .js files in /js directory for changes. On change, we will
   // run the 'scripts' gulp task.
   gulp.watch('js/*.js', ['scripts']);
+
+  // Watches all .scss files in /styles directory for changes. On change, we will
+  // run the 'styles' gulp task.
+  gulp.watch('styles/*.scss', ['styles'])
 });
 
 
