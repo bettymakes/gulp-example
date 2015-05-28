@@ -1,4 +1,5 @@
 var gulp    = require('gulp'),
+    plumber = require('gulp-plumber'),
     sass    = require('gulp-sass'),
     uglify  = require('gulp-uglify');
 
@@ -7,22 +8,25 @@ var gulp    = require('gulp'),
 gulp.task('scripts', function(){
    // Loads any '.js' files in the /js directory
   gulp.src('js/*.js')
-    // Minifies the code
-    .pipe(uglify())
-    // Outputs the minified code into build/js directory
-    .pipe(gulp.dest('build/js'));
+      // Plumber ensures if compiling js produces erros, gulp continues to run
+      .pipe(plumber())
+      // Minifies the code
+      .pipe(uglify())
+      // Outputs the minified code into build/js directory
+      .pipe(gulp.dest('build/js'));
 });
 
 // Task: STYLES ===========================================================
 // Testing for the interim, printing text to screen
 gulp.task('styles', function(){
   // Loads any '.scss' files in the /styles directory
-  console.log('start fail');
   gulp.src('styles/*.scss')
-    // Builds the scss (coverting to css)
-    .pipe(sass())
-    // Outputs the css into build/styles directory
-    .pipe(gulp.dest('build/styles'));
+      // Plumber ensures if compiling scss produces erros, gulp continues to run
+      .pipe(plumber())
+      // Builds the scss (coverting to css)
+      .pipe(sass())
+      // Outputs the css into build/styles directory
+      .pipe(gulp.dest('build/styles'));
 });
 
 
