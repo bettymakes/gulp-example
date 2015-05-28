@@ -8,6 +8,6 @@ gulp.task('default', function(){
   gulp.src('js/*.js')
     // Minifies the code
     .pipe(uglify())
-    // Saves the minified code into minjs directory
-    .pipe(gulp.dest('minjs'))
+    // Saves the minified code into build/js directory
+    .pipe(gulp.dest('build/js'))
 });
