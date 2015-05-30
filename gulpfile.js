@@ -3,6 +3,11 @@ var gulp    = require('gulp'),
     sass    = require('gulp-sass'),
     uglify  = require('gulp-uglify');
 
+function errorLog(error){
+  console.error(error);
+  this.emit('end');
+};
+
 // Task: SCRIPTS  =========================================================
 // Uglifies JS
 gulp.task('scripts', function(){
@@ -21,10 +26,16 @@ gulp.task('scripts', function(){
 gulp.task('styles', function(){
   // Loads any '.scss' files in the /styles directory
   gulp.src('styles/*.scss')
-      // Plumber ensures if compiling scss produces erros, gulp continues to run
-      .pipe(plumber())
+      /* // Plumber ensures if compiling scss produces erros, gulp continues to run
+      .pipe(plumber()) */
       // Builds the scss (coverting to css)
       .pipe(sass())
+      // Using on error instead of plumber to throw errors. Should be included 
+      // after the process that attempts to compile/build
+      // Method 1:
+      // .on('error', console.error.bind(console))
+      // Method 2: errorLog Fn is declared up top
+      .on('error', errorLog)
       // Outputs the css into build/styles directory
       .pipe(gulp.dest('build/styles'));
 });
