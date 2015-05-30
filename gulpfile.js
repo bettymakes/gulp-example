@@ -1,8 +1,18 @@
-var gulp    = require('gulp'),
-    plumber = require('gulp-plumber'),
-    sass    = require('gulp-sass'),
-    uglify  = require('gulp-uglify');
+var express     = require('express'),
+    gulp        = require('gulp'),
+    livereload  = require('gulp-livereload'),
+    plumber     = require('gulp-plumber'),
+    sass        = require('gulp-sass'),
+    uglify      = require('gulp-uglify');
 
+// Fn: Starting Express Server
+function startExpress(){
+  var app = express();
+  app.use(express.static('gulp-tutorial'))
+  app.listen(4000);
+}
+
+// Fn: Logging error
 function errorLog(error){
   console.error(error);
   this.emit('end');
@@ -32,18 +42,21 @@ gulp.task('styles', function(){
       .pipe(sass())
       // Using on error instead of plumber to throw errors. Should be included 
       // after the process that attempts to compile/build
-      // Method 1:
-      // .on('error', console.error.bind(console))
+      /* Method 1:
+      .on('error', console.error.bind(console))*/
       // Method 2: errorLog Fn is declared up top
       .on('error', errorLog)
       // Outputs the css into build/styles directory
-      .pipe(gulp.dest('build/styles'));
+      .pipe(gulp.dest('build/styles'))
+      .pipe(livereload());
 });
 
 
 // Task: WATCH ============================================================
 // Watches JS
 gulp.task('watch', function(){
+  var server = livereload.listen();
+
   // Watches all .js files in /js directory for changes. On change, we will
   // run the 'scripts' gulp task.
   gulp.watch('js/*.js', ['scripts']);
@@ -59,4 +72,6 @@ gulp.task('watch', function(){
           as the second argument. The array will contain the names of any tasks
           you want to run within the 'default' task.
 */
-gulp.task('default', ['scripts', 'styles', 'watch']);
+gulp.task('default', ['scripts', 'styles', 'watch', function(){
+  startExpress();
+}]);
