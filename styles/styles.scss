@@ -1,9 +1,10 @@
-$primary: blue;
-$base-font-size: 16px;
+$primary: red;
+$base-font-size: 50px;
 
-div {
+body {
   color: $primary;
+  font-size: $base-font-size;
   p {
-    font-size: $base-font-size;
+    background-color: $primary;
   }
 }
